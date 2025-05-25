@@ -1,5 +1,5 @@
 from typing import Union
-
+import re
 from src.masks import get_mask_card_number, get_mask_account
 
 
@@ -17,4 +17,10 @@ def mask_account_card(bank_details: Union[str, int]) -> Union[str, int]:
         card_result = f"{card_type} {mask_card_number}"
         return card_result
 
-print(mask_account_card("Счет 73654108430135874305"))
+def get_date(date: Union[str, int]) -> Union[str, int]:
+    """Функция принимает на вход строку с датой в странном формате и возвращает строку с датой в формате (ДД.ММ.ГГГГ)"""
+    split_date = re.split('[-T]', date)
+    date_list = [split_date[2], split_date[1], split_date[0]]
+    date_result = ".".join(date_list)
+    return date_result
+
