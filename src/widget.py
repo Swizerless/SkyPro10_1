@@ -4,7 +4,7 @@ from typing import Any
 from src.masks import get_mask_account, get_mask_card_number
 
 
-def mask_account_card(bank_details: Any[str, int]) -> Any[str, int]:
+def mask_account_card(bank_details: Any) -> Any:
     """Функция принимает один аргумент — строку, содержащую тип и номер карты или счета,
     а возвращает строку с замаскированным номером"""
     split_parts = bank_details.split()
