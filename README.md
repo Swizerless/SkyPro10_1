@@ -64,3 +64,9 @@ poetry add package_name
 ```bash
 poetry update
 ```
+
+### 5. Добавлен пакет тестирования для всех модулей
+- Для проверки Code Coverage выполните в терминале poetry:
+```bash
+pytest --cov
+```
