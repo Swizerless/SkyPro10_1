@@ -1,9 +1,10 @@
 import pytest
+from typing import List, Dict, Any
 
 from src.processing import filter_by_state, sort_by_date
 
-# ------------------------- Тесты для filter_by_state -------------------------
 
+# ------------------------- Тесты для filter_by_state -------------------------
 
 @pytest.mark.parametrize(
     "state, expected",
@@ -13,18 +14,17 @@ from src.processing import filter_by_state, sort_by_date
         ("CANCELLED", []),  # Отсутствие совпадений
     ],
 )
-def test_filter_by_state(transactions_list, state, expected):
+def test_filter_by_state(transactions_list: List[Dict[str, Any]], state: str, expected: List[Dict[str, Any]]) -> None:
     """Тестируем фильтрацию списка словарей по заданному статусу state."""
     assert filter_by_state(transactions_list, state) == expected
 
 
-def test_filter_by_state_no_state(transactions_list_no_state):
+def test_filter_by_state_no_state(transactions_list_no_state: List[Dict[str, Any]]) -> None:
     """Тестируем работу функции при отсутствии ключа state в словарях."""
     assert filter_by_state(transactions_list_no_state, "EXECUTED") == []
 
 
 # ------------------------- Тесты для sort_by_date -------------------------
-
 
 @pytest.mark.parametrize(
     "reverse, expected",
@@ -47,18 +47,18 @@ def test_filter_by_state_no_state(transactions_list_no_state):
         ),  # Сортировка по возрастанию
     ],
 )
-def test_sort_by_date(transactions_list_with_dates, reverse, expected):
+def test_sort_by_date(transactions_list_with_dates: List[Dict[str, Any]], reverse: bool, expected: List[Dict[str, Any]]) -> None:
     """Тестируем сортировку списка словарей по датам."""
     assert sort_by_date(transactions_list_with_dates, reverse) == expected
 
 
-def test_sort_by_date_same_dates(transactions_list_same_dates):
+def test_sort_by_date_same_dates(transactions_list_same_dates: List[Dict[str, Any]]) -> None:
     """Тестируем корректность сортировки при одинаковых датах."""
     sorted_list = sort_by_date(transactions_list_same_dates, reverse=True)
     assert sorted_list == transactions_list_same_dates  # Порядок сохраняется
 
 
-def test_sort_by_date_invalid_format(transactions_list_invalid_date):
+def test_sort_by_date_invalid_format(transactions_list_invalid_date: List[Dict[str, Any]]) -> None:
     """Тестируем работу функции с некорректными или нестандартными форматами дат."""
     with pytest.raises(ValueError):
         sort_by_date(transactions_list_invalid_date)

@@ -1,9 +1,10 @@
 import pytest
+from typing import Any
 
 from src.widget import get_date, mask_account_card
 
-# ------------------------- Тесты для mask_account_card -------------------------
 
+# ------------------------- Тесты для mask_account_card -------------------------
 
 @pytest.mark.parametrize(
     "bank_details, expected",
@@ -16,13 +17,12 @@ from src.widget import get_date, mask_account_card
         ("Random Text Without Numbers", "Invalid Input"),  # Некорректные данные
     ],
 )
-def test_mask_account_card(bank_details, expected):
+def test_mask_account_card(bank_details: str, expected: str) -> None:
     """Тестируем правильность маскирования номера карты или счета."""
     assert mask_account_card(bank_details) == expected
 
 
 # ------------------------- Тесты для get_date -------------------------
-
 
 @pytest.mark.parametrize(
     "date, expected",
@@ -33,7 +33,7 @@ def test_mask_account_card(bank_details, expected):
         ("2023-02-28T12:34:56", "28.02.2023"),  # Последний день февраля
     ],
 )
-def test_get_date(date, expected):
+def test_get_date(date: str, expected: str) -> None:
     """Тестируем правильность преобразования даты."""
     assert get_date(date) == expected
 
@@ -48,7 +48,7 @@ def test_get_date(date, expected):
         "2023-02-30T12:34:56",  # Невалидный день (30 февраля)
     ],
 )
-def test_get_date_invalid_data(invalid_date):
+def test_get_date_invalid_data(invalid_date: str) -> None:
     """Тестируем обработку некорректных входных данных."""
     with pytest.raises(ValueError):
         get_date(invalid_date)
