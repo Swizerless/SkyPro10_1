@@ -1,17 +1,19 @@
 import pytest
-from src.widget import mask_account_card, get_date
+
+from src.widget import get_date, mask_account_card
 
 # ------------------------- Тесты для mask_account_card -------------------------
+
 
 @pytest.mark.parametrize(
     "bank_details, expected",
     [
         ("Visa Classic 5424997579391743", "Visa Classic 5424 99** **** 1743"),  # Карта Visa
-        ("MasterCard 1234567890123456", "MasterCard 1234 56** **** 3456"),       # Карта MasterCard
-        ("Счет 73654108430135874305", "Счет **4305"),                            # Счет
-        ("Счёт 12345678901234567890", "Счёт **7890"),                           # Альтернативное написание "Счёт"
-        ("Invalid Input", "Invalid Input"),                                     # Некорректные данные
-        ("Random Text Without Numbers", "Invalid Input"),                       # Некорректные данные
+        ("MasterCard 1234567890123456", "MasterCard 1234 56** **** 3456"),  # Карта MasterCard
+        ("Счет 73654108430135874305", "Счет **4305"),  # Счет
+        ("Счёт 12345678901234567890", "Счёт **7890"),  # Альтернативное написание "Счёт"
+        ("Invalid Input", "Invalid Input"),  # Некорректные данные
+        ("Random Text Without Numbers", "Invalid Input"),  # Некорректные данные
     ],
 )
 def test_mask_account_card(bank_details, expected):
@@ -20,6 +22,7 @@ def test_mask_account_card(bank_details, expected):
 
 
 # ------------------------- Тесты для get_date -------------------------
+
 
 @pytest.mark.parametrize(
     "date, expected",
@@ -38,11 +41,11 @@ def test_get_date(date, expected):
 @pytest.mark.parametrize(
     "invalid_date",
     [
-        "",                              # Пустая строка
-        "2023/10/15T12:34:56",           # Неправильный разделитель даты
-        "Invalid Date String",           # Полностью некорректная строка
-        "2023-13-01T12:34:56",           # Невалидный месяц (13)
-        "2023-02-30T12:34:56",           # Невалидный день (30 февраля)
+        "",  # Пустая строка
+        "2023/10/15T12:34:56",  # Неправильный разделитель даты
+        "Invalid Date String",  # Полностью некорректная строка
+        "2023-13-01T12:34:56",  # Невалидный месяц (13)
+        "2023-02-30T12:34:56",  # Невалидный день (30 февраля)
     ],
 )
 def test_get_date_invalid_data(invalid_date):

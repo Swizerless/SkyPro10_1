@@ -1,4 +1,5 @@
-from typing import Iterable, Dict
+from typing import Dict, Iterable
+
 
 def filter_by_state(dict_to_filter: Iterable[Dict], state: str = "EXECUTED") -> Iterable[Dict]:
     """Функция принимает список словарей и опционально значение для ключа state (по умолчанию 'EXECUTED'),

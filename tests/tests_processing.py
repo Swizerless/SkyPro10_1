@@ -1,15 +1,16 @@
 import pytest
+
 from src.processing import filter_by_state, sort_by_date
 
-
 # ------------------------- Тесты для filter_by_state -------------------------
+
 
 @pytest.mark.parametrize(
     "state, expected",
     [
         ("EXECUTED", [{"id": 1, "state": "EXECUTED"}, {"id": 3, "state": "EXECUTED"}]),  # Фильтрация по EXECUTED
-        ("PENDING", [{"id": 2, "state": "PENDING"}]),                                   # Фильтрация по PENDING
-        ("CANCELLED", []),                                                             # Отсутствие совпадений
+        ("PENDING", [{"id": 2, "state": "PENDING"}]),  # Фильтрация по PENDING
+        ("CANCELLED", []),  # Отсутствие совпадений
     ],
 )
 def test_filter_by_state(transactions_list, state, expected):
@@ -23,6 +24,7 @@ def test_filter_by_state_no_state(transactions_list_no_state):
 
 
 # ------------------------- Тесты для sort_by_date -------------------------
+
 
 @pytest.mark.parametrize(
     "reverse, expected",
