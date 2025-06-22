@@ -56,3 +56,52 @@ def valid_date():
 @pytest.fixture
 def invalid_date():
     return "Invalid Date String"
+
+#----------------------------------------------------------------------------------------
+# Фикстуры для тестирования модуля processing.py
+@pytest.fixture
+def transactions_list():
+    """Фикстура с тестовыми данными для filter_by_state."""
+    return [
+        {"id": 1, "state": "EXECUTED"},
+        {"id": 2, "state": "PENDING"},
+        {"id": 3, "state": "EXECUTED"},
+    ]
+
+
+@pytest.fixture
+def transactions_list_no_state():
+    """Фикстура с тестовыми данными без ключа state."""
+    return [
+        {"id": 1, "other_key": "value1"},
+        {"id": 2, "other_key": "value2"},
+    ]
+
+
+@pytest.fixture
+def transactions_list_with_dates():
+    """Фикстура с тестовыми данными для sort_by_date."""
+    return [
+        {"id": 1, "date": "2023-08-15T12:34:56"},
+        {"id": 2, "date": "2023-09-01T00:00:00"},
+        {"id": 3, "date": "2023-10-15T12:34:56"},
+    ]
+
+
+@pytest.fixture
+def transactions_list_same_dates():
+    """Фикстура с тестовыми данными для одинаковых дат."""
+    return [
+        {"id": 1, "date": "2023-10-15T12:34:56"},
+        {"id": 2, "date": "2023-10-15T12:34:56"},
+        {"id": 3, "date": "2023-10-15T12:34:56"},
+    ]
+
+
+@pytest.fixture
+def transactions_list_invalid_date():
+    """Фикстура с тестовыми данными для некорректных дат."""
+    return [
+        {"id": 1, "date": "invalid-date"},
+        {"id": 2, "date": "2023/10/15T12:34:56"},
+    ]
