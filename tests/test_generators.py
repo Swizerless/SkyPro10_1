@@ -13,7 +13,6 @@ def test_filter_by_currency_correct_filtering() -> None:
 
 
 def test_filter_by_currency_no_matches() -> None:
-
     """Проверяем случай, когда валюты нет в списке транзакций"""
 
     result = list(filter_by_currency(transactions, "EUR"))
@@ -63,6 +62,7 @@ def test_transaction_descriptions_multiple() -> None:
     sample_transactions = [{"description": "Оплата услуги"}, {"description": "Перевод"}, {"description": "Покупка"}]
     result = list(transaction_descriptions(sample_transactions))
     assert result == ["Оплата услуги", "Перевод", "Покупка"]
+
 
 def test_card_number_generator_range() -> None:
     start = 1

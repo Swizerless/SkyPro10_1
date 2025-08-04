@@ -1,10 +1,10 @@
 import pytest
-from typing import Any
 
 from src.widget import get_date, mask_account_card
 
 
 # ------------------------- Тесты для mask_account_card -------------------------
+
 
 @pytest.mark.parametrize(
     "bank_details, expected",
@@ -23,6 +23,7 @@ def test_mask_account_card(bank_details: str, expected: str) -> None:
 
 
 # ------------------------- Тесты для get_date -------------------------
+
 
 @pytest.mark.parametrize(
     "date, expected",

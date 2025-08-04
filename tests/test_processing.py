@@ -6,6 +6,7 @@ from src.processing import filter_by_state, sort_by_date
 
 # ------------------------- Тесты для filter_by_state -------------------------
 
+
 @pytest.mark.parametrize(
     "state, expected",
     [
@@ -25,6 +26,7 @@ def test_filter_by_state_no_state(transactions_list_no_state: List[Dict[str, Any
 
 
 # ------------------------- Тесты для sort_by_date -------------------------
+
 
 @pytest.mark.parametrize(
     "reverse, expected",
@@ -47,7 +49,9 @@ def test_filter_by_state_no_state(transactions_list_no_state: List[Dict[str, Any
         ),  # Сортировка по возрастанию
     ],
 )
-def test_sort_by_date(transactions_list_with_dates: List[Dict[str, Any]], reverse: bool, expected: List[Dict[str, Any]]) -> None:
+def test_sort_by_date(
+    transactions_list_with_dates: List[Dict[str, Any]], reverse: bool, expected: List[Dict[str, Any]]
+) -> None:
     """Тестируем сортировку списка словарей по датам."""
     assert sort_by_date(transactions_list_with_dates, reverse) == expected
 
