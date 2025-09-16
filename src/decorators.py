@@ -1,77 +1,70 @@
-from functools import wraps
 from datetime import datetime
+from functools import wraps
+from typing import Any, Callable, Optional
+
 
 # Определяем декоратор log
-def log(filename=None):
+def log(filename: Optional[str] = None) -> Callable:
     """
-        Декоратор для логирования вызовов функции.
+    Декоратор для логирования вызовов функции.
 
-        Логирует начало выполнения функции, её аргументы, результат или ошибку.
-        Логи могут быть выведены в консоль или записаны в файл.
+    Логирует начало выполнения функции, её аргументы, результат или ошибку.
+    Логи могут быть выведены в консоль или записаны в файл.
 
-        Args:
-            filename (str, optional): Имя файла для записи логов.
-                                      Если не указано, логи выводятся в консоль.
+    Args:
+        filename (str, optional): Имя файла для записи логов.
+                                  Если не указано, логи выводятся в консоль.
 
-        Поведение:
-            - При успешном выполнении функции логируется её результат.
-            - При возникновении ошибки логируется тип ошибки и входные параметры.
-            - Исключение пробрасывается дальше после логирования.
+    Поведение:
+        - При успешном выполнении функции логируется её результат.
+        - При возникновении ошибки логируется тип ошибки и входные параметры.
+        - Исключение пробрасывается дальше после логирования.
 
-        Пример использования:
-            @log()
-            def add(a, b):
-                return a + b
+    Пример использования:
+        @log()
+        def add(a, b):
+            return a + b
 
-            @log(filename="mylog.txt")
-            def divide(a, b):
-                return a / b
+        @log(filename="mylog.txt")
+        def divide(a, b):
+            return a / b
 
-            add(3, 5)       # Логи выводятся в консоль
-            divide(10, 2)   # Логи записываются в файл "mylog.txt"
-        """
-    def decorator(func):
+        add(3, 5)       # Логи выводятся в консоль
+        divide(10, 2)   # Логи записываются в файл "mylog.txt"
+    """
+
+    def decorator(func: Callable[..., Any]) -> Callable:
         @wraps(func)
-        def wrapper(*args, **kwargs):
-            # Получаем текущее время
+        def wrapper(*args: Any, **kwargs: Any) -> Any:
             start_time = datetime.now()
-
-            # Логируем начало выполнения
             log_message = f"[{start_time}] Calling function '{func.__name__}' with args: {args}, kwargs: {kwargs}\n"
-
+            exception: Exception  # Объявляем переменную с типом Exception
             try:
-                # Вызываем оригинальную функцию
                 result = func(*args, **kwargs)
-
-                # Логируем успешное выполнение
                 end_time = datetime.now()
                 log_message += f"[{end_time}] Function '{func.__name__}' completed successfully. Result: {result}\n"
                 success = True
             except ZeroDivisionError as e:
-                # Логируем ошибку деления на ноль
                 end_time = datetime.now()
-                error_message = f"[{end_time}] Function '{func.__name__}' raised a ZeroDivisionError. Inputs: {args}, {kwargs}\n"
+                error_message = (
+                    f"[{end_time}] Function '{func.__name__}' raised a ZeroDivisionError. Inputs: {args}, {kwargs}\n"
+                )
                 log_message += error_message
                 success = False
-                exception = e  # Сохраняем объект исключения
+                exception = e  # Присваиваем значение типа ZeroDivisionError
             except Exception as e:
-                # Логируем другие ошибки
                 end_time = datetime.now()
                 error_message = f"[{end_time}] Function '{func.__name__}' raised an error: {type(e).__name__}. Inputs: {args}, {kwargs}\n"
                 log_message += error_message
                 success = False
-                exception = e  # Сохраняем объект исключения
+                exception = e  # Присваиваем значение типа Exception
 
-            # Определяем, куда выводить логи
             if filename:
-                # Записываем логи в файл
                 with open(filename, "a") as f:
                     f.write(log_message)
             else:
-                # Выводим логи в консоль
                 print(log_message, end="")
 
-            # Если была ошибка, пробрасываем исключение дальше
             if not success:
                 raise exception  # Пробрасываем сохранённое исключение
 
@@ -80,4 +73,3 @@ def log(filename=None):
         return wrapper
 
     return decorator
-
