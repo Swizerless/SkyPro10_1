@@ -1,31 +1,33 @@
 import json
-import os
 
-def convert_operations_dict(path: str) -> list:
-    """
-        Функция принимает путь до JSON-файла и возвращает список словарей с данными о финансовых транзакциях.
-        Если файл пустой, содержит не список или не найден, функция возвращает пустой список.
-    """
+from logger import logger
+from src.external_api import get_exchange_rate
 
-    # Проверяем, существует ли файл
-    if not os.path.exists(path):
-        print(f"Файл не найден: {path}")
-        return []
 
+def load_transactions_json(file_path):
+    logger.info(f"Загружаем транзакции из файла: {file_path}")
     try:
-        # Открываем файл и пытаемся загрузить данные
-        with open(path, encoding='utf-8') as f:
+        with open(file_path, 'r', encoding='utf-8') as f:
             data = json.load(f)
+            logger.info("Успешно загружены транзакции")
+            return data
 
-        # Проверяем, является ли загруженный объект списком
-        if not isinstance(data, list):
-            print(f"Файл содержит некорректные данные (ожидался список): {data}")
-            return []
-
-        # Возвращаем список словарей
-        return data
-
-    except json.JSONDecodeError:
-        # Если файл пустой или содержит невалидный JSON
-        print(f"Файл пустой или содержит некорректный JSON: {path}")
+    except (json.JSONDecodeError, FileNotFoundError) as e:
+        logger.error(f"Ошибка при загрузке файла: {e}")
         return []
+
+
+def convert_transaction_rub(transaction):
+    amount = transaction.get('operationAmount').get('amount')
+    currency = transaction.get('operationAmount').get('currency').get("code")
+    logger.info(f"Конвертация транзакции: сумма={amount}, валюта={currency}")
+
+    if currency == 'RUB':
+        return amount
+    elif currency in ['USD', 'EUR']:
+        result = get_exchange_rate(currency, amount)
+        logger.info(f"Конвертированная сумма: {result}")
+        return result
+    else:
+        logger.warning(f"Неизвестная валюта: {currency}")
+        return f'Неизвестная валюта: {currency}'
