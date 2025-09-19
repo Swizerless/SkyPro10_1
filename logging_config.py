@@ -38,6 +38,14 @@ LOGGING_CONFIG = {
             "level": "DEBUG",
             "mode": "w",
         },
+        "masks_handler": {
+            "class": "logging.FileHandler",
+            "filename": os.path.join(LOGS_DIR, "masks.log"),
+            "encoding": "utf-8",
+            "formatter": "standard",
+            "level": "DEBUG",
+            "mode": "w",
+        },
         "common_handler": {
             "class": "logging.FileHandler",
             "filename": os.path.join(LOGS_DIR, "full.log"),
@@ -55,6 +63,11 @@ LOGGING_CONFIG = {
         },
         "external_api": {
             "handlers": ["external_api_handler", "common_handler"],
+            "level": "DEBUG",
+            "propagate": False,
+        },
+        "masks": {
+            "handlers": ["masks_handler", "common_handler"],
             "level": "DEBUG",
             "propagate": False,
         },

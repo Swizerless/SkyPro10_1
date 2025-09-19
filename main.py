@@ -2,6 +2,7 @@ import logging
 import logging.config
 
 from logging_config import LOGGING_CONFIG
+from src.masks import get_mask_account, get_mask_card_number
 from src.utils import convert_transaction_rub, load_transactions_json
 
 logging.config.dictConfig(LOGGING_CONFIG)
@@ -25,3 +26,7 @@ operations_json = load_transactions_json("data/operations.json")
 # logger.info("Вызываем функции конвертации валюты с полученным списком словарей")
 # for dic in operations_json:
 #     convert_transaction_rub(dic)
+
+print(get_mask_account("73654108430135874305"))
+
+print(get_mask_card_number("5424997579391743"))
