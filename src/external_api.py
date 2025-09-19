@@ -1,12 +1,15 @@
 import os
-
+import logging
 import requests
 from dotenv import load_dotenv
 
+
 load_dotenv()
+logger = logging.getLogger('external_api')
 
 
 def get_exchange_rate(currency, amount):
+    logger.info('Начинается выполнение функции запроса API')
     curr_to = "RUB"
     curr_from = currency
 

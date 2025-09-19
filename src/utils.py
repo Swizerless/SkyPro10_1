@@ -1,9 +1,9 @@
 import json
 from typing import Any, Dict, List, Union
-
-from logger import logger  # type: ignore
-
+import logging
 from src.external_api import get_exchange_rate
+
+logger = logging.getLogger('utils')
 
 
 def load_transactions_json(file_path: str) -> List[Dict[str, Any]]:
